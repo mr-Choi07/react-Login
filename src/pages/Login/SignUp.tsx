@@ -4,16 +4,29 @@ import { useNavigate } from 'react-router-dom';
 
 // 로그인 페이지
 export default function Register() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [isMatched, setIsMatched] = useState(true);
-    const [emailCheck, setEmailCheck] = useState(false);
-    const [passwordCheck, setpasswordCheck] = useState(false);
-    const [notAllow, setNotAllow] = useState(true);
+    const [email, setEmail] = useState<string>('');
+    const [id , setId] = useState<string>('');
+    const [idCheck, setIdCheck] = useState<boolean>(false);
+    const [password, setPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [isMatched, setIsMatched] = useState<boolean>(false);
+    const [emailCheck, setEmailCheck] = useState<boolean>(false);
+    const [passwordCheck, setpasswordCheck] = useState<boolean>(false);
+    const [notAllow, setNotAllow] = useState<boolean>(true);
  
     const navigate = useNavigate();
     
+    // 보안강화(아이디 정규식)
+    const handleId = (e) => {
+    setId(e.target.value);
+    const regex = /^[a-zA-Z0-9]{3,12}$/;
+    if (regex.test(id)) {
+        setIdCheck(true);
+    } else {
+        setIdCheck(false);
+    }
+    }
+
     // 보안강화(이메일 정규식)
     const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -24,12 +37,13 @@ export default function Register() {
     } else {
         setEmailCheck(false);
     }
+    
   }
   // 보안강화(비밀번호 정규식)
   const handlePassword = (e) => {
     setPassword(e.target.value);
     const regex = 
-    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/;
     if (regex.test(password)) {
         setpasswordCheck(true);
     } else {
@@ -38,25 +52,31 @@ export default function Register() {
   }
 
   // 비밀번호 재입력 유효성 검사
-  const handleConfirmPassword = (e) => {
+    const handleConfirmPassword = (e) => {
     setConfirmPassword(e.target.value);
-    setIsMatched(password === e.target.value);
-  };
+    if (password === e.target.value) {
+        setIsMatched(true);
+    }
+    else {
+        setIsMatched(false);
+    }
+    }
+
   
   // 회원가입완료 알림
   const onClickConfirmButton = () => {
     alert('회원가입이 완료되었습니다.')
-    navigate('/');
+    navigate('/signin');
   }
 
     useEffect(() => {
-        if (emailCheck && passwordCheck) {
+        if (emailCheck && passwordCheck && isMatched) {
             setNotAllow(false);
             return;
         } else {
             setNotAllow(true);
         }
-    }, [emailCheck, passwordCheck]);
+    }, [emailCheck, passwordCheck, isMatched]);
 
   return (
     <div className="Sign-container">
@@ -81,6 +101,27 @@ export default function Register() {
                 {
                     !emailCheck && email.length > 0 && (
                         <div>올바른 이메일을 입력해주세요.</div>
+                )}
+            </div>
+            
+            {/* 아이디 */}
+            <div style={{ marginTop: "26px" }} className="contentWrap">
+                <div className="inputTitle">아이디</div>
+                <div className="inputWrap">
+                    <input 
+                        type="text"
+                        className="input" 
+                        placeholder="4 ~ 12자리 사이의 아이디"
+                        value={id}
+                        onChange={handleId}/>
+                </div>
+            </div>
+
+            {/* 에러메세지(아이디) */}
+            <div className="errorMessageWrap">
+                {
+                    !idCheck && id.length > 0 && (
+                        <div>4 ~ 12자리 사이의 아이디를 입력해주세요.</div>
                 )}
             </div>
 
@@ -127,7 +168,9 @@ export default function Register() {
     <div className='buttonWrap'>
         <button onClick={onClickConfirmButton} disabled={notAllow} className="bottomButton">
             가입
+            
         </button>
+        
     </div>
         
         <hr/>

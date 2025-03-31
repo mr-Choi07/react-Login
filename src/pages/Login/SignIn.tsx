@@ -10,16 +10,16 @@ const User = {
 // 로그인 페이지
 export default function SignIn() {
   const navigate = useNavigate();
-  const [id , setId] = useState('');
-  const [idCheck, setIdCheck] = useState(false);
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setpasswordCheck] = useState(false);
-  const [notAllow, setNotAllow] = useState(true);
+  const [id , setId] = useState<string>('');
+  const [idCheck, setIdCheck] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+  const [passwordCheck, setpasswordCheck] = useState<boolean>(false);
+  const [notAllow, setNotAllow] = useState<boolean>(true);
 
-  // 보안강화(비밀번호 정규식)
+  // 보안강화 (아이디 정규식)
   const handleId = (e) => {
     setId(e.target.value);
-    const regex = /^[a-zA-Z0-9]{4,12}$/;
+    const regex = /^[a-zA-Z0-9]{3,12}$/;
     if (regex.test(id)) {
         setIdCheck(true);
     } else {
@@ -27,11 +27,11 @@ export default function SignIn() {
     }
   }
 
-  // 보안강화(비밀번호 정규식)
+  // 보안강화 (비밀번호 정규식)
   const handlePassword = (e) => {
     setPassword(e.target.value);
     const regex = 
-    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/;
     if (regex.test(password)) {
         setpasswordCheck(true);
     } else {
@@ -42,14 +42,14 @@ export default function SignIn() {
   // 성공여부 알림
   const onclickConfirmButton = () => {
     if (id === User.id && password === User.password) {
-        alert('로그인 성공!');
+        alert('환영합니다');
         navigate("/home");
     } else {
-        alert('로그인 실패!');
+        alert('로그인 실패');
     }
   }
 
-  // 이메일 비밀번호 입력확인
+  // 아이디 비밀번호 입력확인
   useEffect(() => {
     if (idCheck && passwordCheck) {
         setNotAllow(false);
@@ -65,7 +65,7 @@ export default function SignIn() {
         <h1>로그인</h1>
       </div>
 
-      {/* 이메일 */}
+      {/* 아이디 */}
       <div className="content-Wrap">
         <div className="inputTitle">아이디</div>
         <div className="inputWrap">
@@ -76,6 +76,14 @@ export default function SignIn() {
           value={id}
           onChange={handleId}/>
         </div>
+      </div>
+
+      {/* 에러메세지 (아이디) */}
+      <div className="errorMessageWrap">
+        {
+          !idCheck && id.length > 0 && (
+            <div>4 ~ 12자리 사이의 아이디입니다.</div>
+          )}
       </div>
       
       {/* 비밀번호 */}
@@ -89,7 +97,7 @@ export default function SignIn() {
           onChange={handlePassword}/>
       </div>
 
-      {/* 에러메세지(비밀번호) */}
+      {/* 에러메세지 (비밀번호) */}
       <div className="errorMessageWrap">
         {
           !passwordCheck && password.length > 0 && (
