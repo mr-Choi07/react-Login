@@ -8,7 +8,7 @@ const User = {
 };
 
 // 로그인 페이지
-export default function SignIn() {
+ const  SignIn = () => {
   const navigate = useNavigate();
   const [id, setId] = useState<string>("");
   const [idCheck, setIdCheck] = useState<boolean>(false);
@@ -60,7 +60,6 @@ export default function SignIn() {
   return (
     <div className="Sign-container">
       <div className="titleWrap">
-        <br />
         <h1>로그인</h1>
       </div>
 
@@ -126,3 +125,4 @@ export default function SignIn() {
     </div>
   );
 }
+export default SignIn;

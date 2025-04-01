@@ -7,6 +7,7 @@ export default function Register() {
   const [email, setEmail] = useState<string>("");
   const [id, setId] = useState<string>("");
   const [idCheck, setIdCheck] = useState<boolean>(false);
+  const [idConfirm, setIdConfirm] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isMatched, setIsMatched] = useState<boolean>(false);
@@ -37,6 +38,7 @@ export default function Register() {
       setEmailCheck(false);
     }
   };
+  
   // 보안강화(비밀번호 정규식)
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -47,6 +49,17 @@ export default function Register() {
       setpasswordCheck(false);
     }
   };
+
+   // 아이디 중복 유효성 검사
+   const handleIdConfirm = (e) => {
+    setIdConfirm(e.target.value);
+    if (id === e.target.value) {
+      setIsMatched(false);
+    } else {
+      setIsMatched(true);
+    }
+  };
+
 
   // 비밀번호 재입력 유효성 검사
   const handleConfirmPassword = (e) => {
@@ -118,6 +131,7 @@ export default function Register() {
           {!idCheck && id.length > 0 && (
             <div>4 ~ 12자리 사이의 아이디를 입력해주세요.</div>
           )}
+          
         </div>
 
         {/* 비밀번호 */}
