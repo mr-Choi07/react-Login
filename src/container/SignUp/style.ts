@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const StyledSignIn = styled.div`
+export const StyledSignUp = styled.div`
   .si-warpper {
     position: absolute;
     top: 100px;
     bottom: 0;
     width: 400px;
-    height: 600px;
+    height: 700px;
     padding: 0 20px;
     left: 50%;
     transform: translate(-50%, 0);
@@ -27,11 +27,10 @@ export const StyledSignIn = styled.div`
     }
 
     &-error {
-      margin-top: 10px;
+      margin-top: 8px;
       color: #ef0000;
+      height : 5px;
       font-size: 12px;
-      height : 10px;
-      margin-bottom : 50px
     }
     &-button {
       flex: 1 0 1;
@@ -39,7 +38,7 @@ export const StyledSignIn = styled.div`
     }
 
     &-bottom {
-      background-color: blue;
+      background-color: #0000ff;
       width: 100%;
       height: 48px;
       border: none;
@@ -54,13 +53,13 @@ export const StyledSignIn = styled.div`
       color: white;
     }
 
-    &-register {
+    &-sign {
       flex: 1 0 1;
       margin-top: 5px;
       text-align: center;
     }
 
-    &-rtitle {
+    &-stitle {
       font-size: 14px;
       font-weight: 400;
       color: #919191;
@@ -68,7 +67,7 @@ export const StyledSignIn = styled.div`
     }
   }
 
-   .inputWrap {
+  .inputWrap {
     display: flex;
     border-radius: 8px;
     padding: 16px;
@@ -77,16 +76,7 @@ export const StyledSignIn = styled.div`
     border: 1px solid #e2e0e0;
   }
 
-  .inputid {
-    width: 100%;
-    outline: none;
-    border: none;
-    height: 17px;
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  .inputpw {
+  input {
     width: 100%;
     outline: none;
     border: none;
@@ -96,19 +86,17 @@ export const StyledSignIn = styled.div`
   }
 
   hr {
-    position : relative;
     background-color: #dadada;
-    margin-top: 100px;
+    margin-top: 60px;
     border: none;
     height: 0.3px;
     width: 100%;
   }
-  
+
   a {
-    position : relative;
     text-decoration: none;
     font-weight: 800 !important;
-    color: #0000ff;
+    color: #0000ff !important;
     cursor: pointer;
     text-align: center;
   }
