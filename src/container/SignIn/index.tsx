@@ -1,46 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { StyledSignIn } from "./style.ts";
+import axios from "axios";
 
 export const SignIn = () => {
   const navigate = useNavigate();
-  const [id, setId] = useState("");
+  const [Username, setUsername] = useState("");
   const [idCheck, setIdCheck] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordCheck, setpasswordCheck] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
+
   // 보안강화 (아이디 정규식)
-  const handleId = (e) => {
-    setId(e.target.value);
+  const handleUsername = (e) => {
+    const value = e.target.value;
+    setUsername(value);
     const regex = /^[a-zA-Z0-9]{3,12}$/;
-    if (regex.test(id)) {
-      setIdCheck(true);
-    } else {
-      setIdCheck(false);
-    }
+    setIdCheck(regex.test(value));
   };
 
   // 보안강화 (비밀번호 정규식)
   const handlePassword = (e) => {
-    setPassword(e.target.value);
+    const value = e.target.value;
+    setPassword(value);
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/;
-    if (regex.test(password)) {
-      setpasswordCheck(true);
-    } else {
-      setpasswordCheck(false);
-    }
+    setpasswordCheck(regex.test(value));
   };
 
+  const config = {
+    method : "post",
+    url : "http://192.172.136.197:8090/v1/auth/login",
+    data : {
+      username : Username,
+      password : password
+    },
+    headers : {
+       "Content-Type": "application/json",
+       "Accept": "application/json;charset=UTF-8",
+
+    }
+
+  };
   // 성공여부 알림
-  const onclickConfirmButton = () => {
-    if (id === id && password === password) {
+  const onclickConfirmButton = async () => {
+  try {
+    console.log("보내는 데이터:", config.data);
+    const response = await axios(config);
+
+    if (response.data.isSuccess) {
       alert("환영합니다");
       navigate("/home");
     } else {
       alert("로그인 실패");
     }
-  };
+  } catch (error) {
+    console.error("로그인 실패:", error.response?.data);
+    alert(error.response?.data?.message || "로그인 실패");
+  }
+};
 
   // 아이디 비밀번호 입력확인
   useEffect(() => {
@@ -55,7 +73,6 @@ export const SignIn = () => {
     <StyledSignIn>
       <div className="si-warpper">
         <div className="si-warpper-title">
-          <br />
           <h1>로그인</h1>
         </div>
 
@@ -65,18 +82,12 @@ export const SignIn = () => {
           <div className="inputWrap">
             <input
               type="text"
+              name="username"
               className="inputid"
               placeholder="아이디를 입력하세요."
-              value={id}
-              onChange={handleId}
+              value={Username}
+              onChange={handleUsername}
             />
-          </div>
-
-          {/* 에러메세지 (아이디) */}
-          <div className="si-warpper-error">
-            {!idCheck && id.length > 0 && (
-              <div>4 ~ 12자리 사이의 아이디입니다.</div>
-            )}
           </div>
 
           {/* 비밀번호 */}
@@ -86,18 +97,12 @@ export const SignIn = () => {
           <div className="inputWrap">
             <input
               type="password"
+              name="password"
               className="inputpw"
-              placeholder="영문, 숫자, 특수문자 포함 8자 이상"
+              placeholder="비밀번호를 입력하세요."
               value={password}
               onChange={handlePassword}
             />
-          </div>
-
-          {/* 에러메세지 (비밀번호) */}
-          <div className="si-warpper-error">
-            {!passwordCheck && password.length > 0 && (
-              <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
-            )}
           </div>
 
           {/* 로그인 */}

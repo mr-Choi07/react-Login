@@ -14,6 +14,7 @@ export const StyledSignUp = styled.div`
     border-radius: 20px;
     display: flex;
     flex-direction: column;
+    margin-top : 150px;
 
     &-input {
       font-size: 12px;
@@ -100,4 +101,14 @@ export const StyledSignUp = styled.div`
     cursor: pointer;
     text-align: center;
   }
+
+    height: 1300px;
+    background-color: rgb(41, 65, 171);
+    background-image: url(https://www-growth.scdn.co/static/home/bursts.svg);
+    background-size: 175%;
+    background-position: 46% 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 `;

@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const StyledSignIn = styled.div`
+
+  
+
   .si-warpper {
     position: absolute;
     top: 100px;
@@ -13,6 +16,7 @@ export const StyledSignIn = styled.div`
     background-color: black;
     border-radius: 20px;
     display: flex;
+    margin-top : 150px;
     flex-direction: column;
 
     &-input {
@@ -26,13 +30,6 @@ export const StyledSignIn = styled.div`
       color: white;
     }
 
-    &-error {
-      margin-top: 10px;
-      color: #ef0000;
-      font-size: 12px;
-      height : 10px;
-      margin-bottom : 50px
-    }
     &-button {
       flex: 1 0 1;
       margin-top: 20px;
@@ -72,7 +69,8 @@ export const StyledSignIn = styled.div`
     display: flex;
     border-radius: 8px;
     padding: 16px;
-    margin-top: 8px;
+    margin-top: 20px;
+    margin-bottom : 60px;
     background-color: white;
     border: 1px solid #e2e0e0;
   }
@@ -98,7 +96,7 @@ export const StyledSignIn = styled.div`
   hr {
     position : relative;
     background-color: #dadada;
-    margin-top: 100px;
+    margin-top: 120px;
     border: none;
     height: 0.3px;
     width: 100%;
@@ -108,8 +106,18 @@ export const StyledSignIn = styled.div`
     position : relative;
     text-decoration: none;
     font-weight: 800 !important;
-    color: #0000ff;
+    color:rgb(0, 0, 255);
     cursor: pointer;
     text-align: center;
   }
+  
+    height: 1300px;
+    background-color: rgb(41, 65, 171);
+    background-image: url(https://www-growth.scdn.co/static/home/bursts.svg);
+    background-size: 175%;
+    background-position: 46% 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 `;

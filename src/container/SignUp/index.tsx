@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { StyledSignUp } from "./style.ts";
+import axios from "axios";
 
 export const SignUp = () => {
   const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
+  const [Username, setUsername] = useState("");
   const [idCheck, setIdCheck] = useState(false);
   const [idConfirm, setIdConfirm] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isMatched, setIsMatched] = useState(true);
+  const [isMatched, setIsMatched] = useState(false);
   const [emailCheck, setEmailCheck] = useState(false);
   const [passwordCheck, setpasswordCheck] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
@@ -18,9 +19,9 @@ export const SignUp = () => {
 
   // 보안강화(아이디 정규식)
   const handleId = (e) => {
-    setId(e.target.value);
+    setUsername(e.target.value);
     const regex = /^[a-zA-Z0-9]{3,12}$/;
-    if (regex.test(id)) {
+    if (regex.test(Username)) {
       setIdCheck(true);
     } else {
       setIdCheck(false);
@@ -52,8 +53,8 @@ export const SignUp = () => {
   // 아이디 중복 유효성 검사
   const handleIdConfirm = (e) => {
     setIdConfirm(e.target.value);
-    if (id === e.target.value) {
-      setIsMatched(false);
+    if (Username === e.target.value) {
+      setIsMatched(true);
     } else {
       setIsMatched(true);
     }
@@ -69,8 +70,26 @@ export const SignUp = () => {
     }
   };
 
+  const config = {
+    method : "post",
+    url : "http://192.172.136.197:8090/v1/auth/register",
+    data : {
+      email : email,
+      username : Username,
+      password : password
+    },
+    headers : {
+       "Content-Type": "application/json",
+       "Accept": "application/json;charset=UTF-8"
+    }
+  };
+
   // 회원가입완료 알림
-  const onClickConfirmButton = () => {
+  const onClickConfirmButton = async () => {
+
+    console.log("보내는 데이터:", config.data);
+    const response = await axios(config);
+    
     alert("회원가입이 완료되었습니다.");
     navigate("/signin");
   };
@@ -119,7 +138,7 @@ export const SignUp = () => {
                 type="text"
                 className="input"
                 placeholder="4 ~ 12자리 사이의 아이디"
-                value={id}
+                value={Username}
                 onChange={handleId}
               />
             </div>
@@ -127,7 +146,7 @@ export const SignUp = () => {
 
           {/* 에러메세지(아이디) */}
           <div className="si-warpper-error">
-            {!idCheck && id.length > 0 && (
+            {!idCheck && Username.length > 0 && (
               <div>4 ~ 12자리 사이의 아이디를 입력해주세요.</div>
             )}
           </div>
